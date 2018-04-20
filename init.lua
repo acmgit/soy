@@ -3,15 +3,35 @@
 	***                        Soy                               ***
 	**********************************************
 	
-	If you use normal the default farming, set default to true.
-	If you use farming_redo, then set default to false.
+	If you want use Soy with farming_redo from TenPlus, then set
+	
+	farming_default = false
+	
+	else true.
+	
+	if you want to add a Recipt to get additional Soy-Seeds, then set
+	
+	additional_seed = true
+	
+	else false.
+	
 ]]--
+local farming_default = true
 
--- Switch true to use farming_redo, default = false
-local default = true
+-- looking if farming_redo is activ?
+if(farming.mod ~= nil and farming.mod == "redo") then
 
-if (default == true) then
+	farming_default = false
 
+end
+
+
+-- Switch true to use the Recipe for additional Seeds.
+local additional_seeds = true
+
+if (farming_default) then
+
+	print("[MOD] " .. minetest.get_current_modname() .. " set to default mode.")
 	-- Soy
 	farming.register_plant("soy:soy", {
 		description = "Soy Beans",
@@ -22,9 +42,47 @@ if (default == true) then
 		fertility = {"grassland"},
 		groups = {flammable = 4},
 	})
+	
+	-- Register for Mapgen
+	minetest.register_node("soy:wild_soy", {
+		description = "Wild Soy",
+		paramtype = "light",
+		walkable = false,
+		drop = { 
+				items = { 
+						{items = {"soy:seed_soy 3"}},
+						{items = {"soy:soy"}},
+					}
+				},
+		drawtype = "plantlike",
+		paramtype2 = "facedir",
+		tiles = {"soy_soy_8.png"},
+		groups = {chopspy=2, oddly_breakable_by_hand=3, flammable=2, plant=1},
+		sounds = default.node_sound_wood_defaults(),
+		selection_box = {
+				type = "fixed",
+				fixed = {
+					{-0.5, -0.5, -0.5, 0.5, -0.35, 0.5}, -- side f
+				},
+		},
+	})
+
+	-- Crafting Recipe to get additional Seeds (Default: additional_seed = false).
+	if(additional_seeds) then
+
+		minetest.register_craft({
+			output = "soy:seed_soy 4",
+			recipe = {
+				{"soy:soy"}
+			}
+		})
+
+	end -- if(additional_seeds)
 
 else
-	minetest.register_node("soy:soy_seed", {
+
+	print("[MOD] " .. minetest.get_current_modname() .. " set to redo mode.")
+	minetest.register_node("soy:seed", {
 		description = "Soy Seed",
 		tiles = {"soy_seed.png"},
 		inventory_image = "soy_seed.png",
@@ -83,7 +141,7 @@ else
 	crop_def.tiles = {"soy_soy_5.png"}
 	crop_def.drop = {
 		items = {
-			{items = {"soy:soy_seed"}, rarity = 1},
+			{items = {"soy:seed_soy"}, rarity = 1},
 		}
 	}
 	minetest.register_node("soy:soy_5", table.copy(crop_def))
@@ -92,7 +150,7 @@ else
 	crop_def.tiles = {"soy_soy_6.png"}
 	crop_def.drop = {
 		items = {
-			{items = {"soy:soy"}, rarity = 1},
+			{items = {"soy:seed"}, rarity = 1},
 			{items = {"soy:soy"}, rarity = 2},
 		}
 	}
@@ -104,8 +162,8 @@ else
 		items = {
 			{items = {"soy:soy"}, rarity = 1},
 			{items = {"soy:soy"}, rarity = 2},
-			{items = {"soy:soy_seed"}, rarity = 1},
-			{items = {"soy:soy_seed"}, rarity = 2},
+			{items = {"soy:seed"}, rarity = 1},
+			{items = {"soy:seed"}, rarity = 2},
 		}
 	}
 	minetest.register_node("soy:soy_7", table.copy(crop_def))
@@ -118,30 +176,74 @@ else
 			{items = {"soy:soy"}, rarity = 1},
 			{items = {"soy:soy"}, rarity = 2},
 			{items = {"soy:soy"}, rarity = 3},
-			{items = {"soy:soy_seed"}, rarity = 1},
-			{items = {"soy:soy_seed"}, rarity = 2},
-			{items = {"soy:soy_seed"}, rarity = 3},
+			{items = {"soy:seed"}, rarity = 1},
+			{items = {"soy:seed"}, rarity = 2},
+			{items = {"soy:seed"}, rarity = 3},
 		}
 	}
 	minetest.register_node("soy:soy_8", table.copy(crop_def))
 	
+	-- Register for Mapgen
+	minetest.register_node("soy:wild_soy", {
+		description = "Wild Soy",
+		paramtype = "light",
+		walkable = false,
+		drop = { 
+				items = { 
+						{items = {"soy:seed 3"}},
+						{items = {"soy:soy"}},
+					}
+				},
+		drawtype = "plantlike",
+		paramtype2 = "facedir",
+		tiles = {"soy_soy_8.png"},
+		groups = {chopspy=2, oddly_breakable_by_hand=3, flammable=2, plant=1},
+		sounds = default.node_sound_wood_defaults(),
+		selection_box = {
+				type = "fixed",
+				fixed = {
+					{-0.5, -0.5, -0.5, 0.5, -0.35, 0.5}, -- side f
+				},
+		},
+	})
+
+	-- Crafting Recipe to get additional Seeds (Default: additional_seed = false).
+	if(additional_seeds) then
+
+		minetest.register_craft({
+			output = "soy:seed 4",
+			recipe = {
+				{"soy:soy"}
+			}
+		})
+
+	end -- if(additional_seeds)
+	
 end -- if( default ....)
+
+
+minetest.register_decoration({
+	deco_type = "simple",
+	place_on = {"default:dirt_with_grass"},
+	sidelen = 16,
+	noise_params = {
+		offset = 0,
+		scale = 0.004,
+		spread = {x = 100, y = 100, z = 100},
+		seed = 7133,
+		octaves = 3,
+		persist = 0.6
+	},
+	y_min = 10,
+	y_max = 90,
+	decoration = "soy:wild_soy",
+})
 
 minetest.register_craft({
 	type = "fuel",
 	recipe = "soy:soy",
 	burntime = 1,
 })
-
--- Crafting Recipe to get additional Seeds.
---[[
-minetest.register_craft({
-	output = "soy:seed_soy 4",
-	recipe = {
-		{"soy:soy"}
-	}
-})
---]]
 
 minetest.register_craftitem("soy:tofu", {
 	description = "Tofu",
@@ -153,7 +255,7 @@ minetest.register_craftitem("soy:tofu", {
 minetest.register_craftitem("soy:milk", {
 	description = "Soy Milk",
 	inventory_image = "soy_milk.png",
-	groups = {flammable = 1, food = 1, milk = 1, eatable = 1},
+	groups = {flammable = 1, food = 1, food_milk = 1, eatable = 1},
 	on_use = minetest.item_eat(1),
 })
 
@@ -186,27 +288,27 @@ minetest.register_craft({
 	cooktime = 5,
 })
 
+-- *** Additional Recipes with other Mods
+
 if minetest.get_modpath("mobs") then
 
 	minetest.register_craft({
 		output = "mobs:meat_raw",
 		recipe = {
-			{"soy:tofu_cooked", "soy:tofu_cooked", "soy:tofu_cooked"}
+			{"soy:tofu", "soy:tofu", "soy:tofu"}
 		}
 	})
 
 	minetest.register_craft({
 		output = "mobs:chicken_raw",
 		recipe = {
-			{"", "soy:tofu_cooked", ""},
-			{"", "soy:tofu_cooked", ""},
-			{"", "soy:tofu_cooked", ""},
+			{"", "soy:tofu", ""},
+			{"", "soy:tofu", ""},
+			{"", "soy:tofu", ""},
 		}
 	})
 
 end -- if mobs
-
--- *** Additional Recipes with other Mods
 
 if minetest.get_modpath("animalmaterials") then
 
