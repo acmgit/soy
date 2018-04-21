@@ -58,7 +58,7 @@ if (farming_default) then
 		paramtype2 = "facedir",
 		tiles = {"soy_soy_8.png"},
 		groups = {chopspy=2, oddly_breakable_by_hand=3, flammable=2, plant=1},
-		sounds = default.node_sound_wood_defaults(),
+		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
 				type = "fixed",
 				fixed = {
@@ -198,7 +198,7 @@ else
 		paramtype2 = "facedir",
 		tiles = {"soy_soy_8.png"},
 		groups = {chopspy=2, oddly_breakable_by_hand=3, flammable=2, plant=1},
-		sounds = default.node_sound_wood_defaults(),
+		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
 				type = "fixed",
 				fixed = {
