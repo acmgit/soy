@@ -270,6 +270,8 @@ minetest.register_craft({
 	output = "soy:tofu",
 	recipe = {
 			{"soy:soy", "soy:soy", "soy:soy"},
+			{"soy:soy", "soy:soy", "soy:soy"},
+			{"soy:soy", "soy:soy", "soy:soy"},
 		},
 })
 
@@ -277,6 +279,7 @@ minetest.register_craft({
 	output = "soy:milk",
 	recipe = {
 			{"soy:soy", "soy:soy", "soy:soy"},
+			{"", "soy:soy", ""},
 			{"", "vessels:drinking_glass", ""},
 		},
 })
@@ -302,9 +305,9 @@ if minetest.get_modpath("mobs") then
 	minetest.register_craft({
 		output = "mobs:chicken_raw",
 		recipe = {
+			{"", "", "soy:tofu"},
 			{"", "soy:tofu", ""},
-			{"", "soy:tofu", ""},
-			{"", "soy:tofu", ""},
+			{"soy:tofu", "", ""},
 		}
 	})
 
