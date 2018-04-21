@@ -141,7 +141,7 @@ else
 	crop_def.tiles = {"soy_soy_5.png"}
 	crop_def.drop = {
 		items = {
-			{items = {"soy:seed_soy"}, rarity = 1},
+			{items = {"soy:seed"}, rarity = 1},
 		}
 	}
 	minetest.register_node("soy:soy_5", table.copy(crop_def))
