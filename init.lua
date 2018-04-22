@@ -256,7 +256,7 @@ minetest.register_craftitem("soy:milk", {
 	description = "Soy Milk",
 	inventory_image = "soy_milk.png",
 	groups = {flammable = 1, food = 1, food_milk = 1, eatable = 1},
-	on_use = minetest.item_eat(1),
+	on_use = minetest.item_eat(1, "vessels:drinking_glass"),
 })
 
 minetest.register_craftitem("soy:tofu_cooked", {
